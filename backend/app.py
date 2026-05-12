@@ -11,10 +11,6 @@ from fastapi import FastAPI
 from backend.services.ab_router import choose_variant
 from backend.services.experiment_logger import log_prediction
 from backend.services.model_registry import MODEL_VERSIONS, get_models
-from backend.storage.s3_client import (
-    download_ab_models_from_s3,
-    download_model_from_s3,
-)
 from src.prediction.model_loader import get_model
 from src.prediction.predict import make_prediction, normalize_prediction_features
 from src.prediction.schemas import HousingFeatures
@@ -112,15 +108,29 @@ async def lifespan(app: FastAPI):
         return
 
     if os.getenv("HF_REPO_ID"):
+        from backend.storage.hf_client import (
+            download_ab_models_from_hf as _download_ab_models,
+        )
+        from backend.storage.hf_client import (
+            download_model_from_hf as _download_model,
+        )
+
         logger.info("Stockage : HuggingFace Hub (repo=%s)", os.getenv("HF_REPO_ID"))
     else:
+        from backend.storage.s3_client import (
+            download_ab_models_from_s3 as _download_ab_models,
+        )
+        from backend.storage.s3_client import (
+            download_model_from_s3 as _download_model,
+        )
+
         logger.info("Stockage : MinIO / S3")
 
     # Etape 1 : recuperer le modele de reference vers le filesystem
     # local du conteneur backend.
     try:
         logger.info("Demarrage du telechargement du modele.")
-        model_path = download_model_from_s3()
+        model_path = _download_model()
         logger.info("Modele telecharge et pret a etre charge depuis : %s", model_path)
     except Exception as exc:
         logger.error("Echec critique pendant le telechargement du modele : %s", exc)
@@ -143,7 +153,7 @@ async def lifespan(app: FastAPI):
     # Etape 3 : si les artefacts A/B existent localement, les precharger aussi.
     try:
         logger.info("Demarrage du telechargement des modeles A/B versionnes.")
-        downloaded_ab_models = download_ab_models_from_s3()
+        downloaded_ab_models = _download_ab_models()
         logger.info("Modeles A/B telecharges avec succes : %s", downloaded_ab_models)
         logger.info("Verification de la disponibilite du registry A/B.")
         get_models()

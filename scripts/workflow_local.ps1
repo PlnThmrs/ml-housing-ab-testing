@@ -142,7 +142,9 @@ if (-not $SkipBandit) {
             "src/prediction/",
             "src/common/",
             "backend/",
-            "frontend/"
+            "frontend/",
+            "-c"
+            "pyproject.toml"
         )
     }
     else {
