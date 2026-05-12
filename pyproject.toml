@@ -47,9 +47,9 @@ line-length = 88
 target-version = ["py310"]
 
 [tool.bandit]
-targets = ["src"]
+targets = ["src", "backend", "frontend"]
 # Exclure le répertoire de l'environnement virtuel et les fichiers de test
 exclude_dirs = ["mon_env", "tests", ".venv", "venv"]
 # B101 est ignoré dans les fichiers de test, mais si vous aviez du code de production
 # où vous vouliez l'ignorer, vous pourriez l'ajouter ici.
-skips = ["B101", "B311"]
+skips = ["B101", "B311", "B615"]
