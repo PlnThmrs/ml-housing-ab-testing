@@ -111,10 +111,15 @@ async def lifespan(app: FastAPI):
         logger.info("Fermeture du cycle de vie FastAPI en mode test.")
         return
 
-    # Etape 1 : recuperer le modele de reference depuis MinIO vers le filesystem
+    if os.getenv("HF_REPO_ID"):
+        logger.info("Stockage : HuggingFace Hub (repo=%s)", os.getenv("HF_REPO_ID"))
+    else:
+        logger.info("Stockage : MinIO / S3")
+
+    # Etape 1 : recuperer le modele de reference vers le filesystem
     # local du conteneur backend.
     try:
-        logger.info("Demarrage du telechargement du modele depuis MinIO.")
+        logger.info("Demarrage du telechargement du modele.")
         model_path = download_model_from_s3()
         logger.info("Modele telecharge et pret a etre charge depuis : %s", model_path)
     except Exception as exc:
