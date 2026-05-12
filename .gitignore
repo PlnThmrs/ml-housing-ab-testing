@@ -1,0 +1,44 @@
+# Environnements Python
+.venv/
+venv/
+mon_env/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+*.ipynb
+
+# Données et modèles locaux
+data/
+logs/
+models/
+artifacts/*
+!.gitkeep
+artifacts/*.joblib
+artifacts/*.pkl
+*.pkl
+*.joblib
+
+# Secrets
+.env
+*.key
+
+# Système / IDE
+.vscode/
+.DS_Store
+.idea/
+
+# Metadata de build
+*.egg-info/
+
+# Documentation
+docs/
