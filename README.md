@@ -1,4 +1,4 @@
-[![CI - Python Quality Checks](https://github.com/rahiming/ml-housting-project/actions/workflows/ci.yml/badge.svg)](https://github.com/rahiming/ml-housting-project/actions/workflows/ci.yml)
+[![CI Pipeline](https://github.com/PlnThmrs/ml-housing-ab-testing/actions/workflows/ci.yml/badge.svg)](https://github.com/PlnThmrs/ml-housing-ab-testing/actions/workflows/ci.yml)
 
 # ML Housing Project
 
