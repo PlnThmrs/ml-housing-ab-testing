@@ -46,8 +46,6 @@ jobs:
           cache: pip
       - name: Install Format Tools
         run: python -m pip install --upgrade pip ruff black
-      - name: Check Ruff Format
-        run: ruff format --check .
       - name: Check Black Format
         run: black --check .
 
